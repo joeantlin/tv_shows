@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Read{{ theshow.id }}</title>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="header">
+            <h1>TV Show {{ theshow.id }}</h1>
+            <a href="/shows">Go Home</a>
+        </div>
+        <div class="main">
+            <p>Title: {{ theshow.title }}</p>
+            <p>Network: {{ theshow.network }}</p>
+            <p>Release Date: {{ theshow.release }}</p>
+            <p>Descrition: {{ theshow.desc }}</p>
+        </div>
+        <div class="footer">
+            <p>Last Updated: {{ theshow.updated_at }}</p>
+            <p><a href="/shows/{{ theshow.id }}/edit">Edit</a> | <a href="/shows/delete/{{ theshow.id }}">Delete</a></p>
+        </div>
+    </div>
+</body>
+</html>

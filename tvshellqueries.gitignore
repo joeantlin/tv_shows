@@ -1,0 +1,14 @@
+Show.objects.create(title="Stranger Things", network="Netflix", release="2016-07-15")
+Show.objects.create(title="Brooklyn Nine-Nine", network="NBC", release="2013-09-17")
+Show.objects.create(title="Game of Thrones", network="HBO", release="2011-04-17")
+Show.objects.create(title="Pushing Daisies", network="ABC", release="2007-10-03")
+
+Show.objects.create(title="Pushing Daisies", network="ABC", release="2007-10-03")
+
+thishow = Show.objects.get(id=1).
+thisshow.title = ""
+
+
+
+
+Show.objects.all().values()
