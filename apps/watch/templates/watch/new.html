@@ -8,6 +8,18 @@
 </head>
 <body>
     <div class="wrapper">
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li {% if message.tags %} 
+                        class="{{ message.tags }}"
+                    {% endif %}>
+                    {{ message }}
+                </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
         <div class="header">
             <h1>Add a New Show</h1>
             <a href="/shows">Go Home</a>
@@ -29,7 +41,7 @@
                     <input type="date" name="date">
                 </label>
                 <label>
-                    Description
+                    Description(Optional)
                     <input type="text" name="description">
                 </label>
                 <input type="submit" value="submit">

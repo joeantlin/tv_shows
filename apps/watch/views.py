@@ -1,5 +1,7 @@
 from django.shortcuts import render, HttpResponse, redirect
+from django.contrib import messages
 from .models import Show
+import datetime
 
 def index(request):
     context = {
@@ -27,20 +29,23 @@ def editedshow(request):
         idshow = request.POST["showid"]
         thisshow = Show.objects.get(id=idshow)
 
-        ti = request.POST["title"]
-        thisshow.title = f"{ti}"
-
-        ne = request.POST["network"]
-        thisshow.network = f"{ne}"
-
-        da = request.POST["date"]
-        thisshow.release = f"{da}"
-
-        de = request.POST["description"]
-        thisshow.desc = f"{de}"
-
-        thisshow.save()
-        return redirect("/shows/"+idshow)
+        errors = Show.objects.edit_validator(request.POST)
+        if len(errors) > 0:
+            for key, value in errors.items():
+                messages.error(request, value)
+            return redirect("/shows/"+idshow+"/edit")
+        else:
+            ti = request.POST["title"]
+            ne = request.POST["network"]
+            de = request.POST["description"]
+            da = request.POST["date"]
+            thisshow.title = ti
+            thisshow.network = ne
+            thisshow.desc = de
+            if not len(da) < 10:
+                thisshow.release = da
+            thisshow.save()
+            return redirect("/shows/"+idshow)
 
 #Show creator
 def createpage(request):
@@ -49,12 +54,18 @@ def createpage(request):
 #New show
 def newshow(request):
     if request.method == "POST":
-        ti = request.POST["title"]
-        ne = request.POST["network"]
-        da = request.POST["date"]
-        de = request.POST["description"]
-        Show.objects.create(title=f"{ti}", network=f"{ne}", release=f"{da}", desc=f"{de}")
-        return redirect("/shows")
+        errors = Show.objects.add_validator(request.POST)
+        if len(errors) > 0:
+            for key, value in errors.items():
+                messages.error(request, value)
+            return redirect("/shows/create")
+        else:
+            ti = request.POST["title"]
+            ne = request.POST["network"]
+            da = request.POST["date"]
+            de = request.POST["description"]
+            Show.objects.create(title=ti, network=ne, release=da, desc=de)
+            return redirect("/shows")
 
 def deleteshow(request, deleteid):
     Show.objects.get(id=deleteid).delete()
